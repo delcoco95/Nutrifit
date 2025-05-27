@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NutriFit - Bienvenue</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand fs-3" href="#">NutriFit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link fs-5" href="#produits">Produits</a></li>
+          <li class="nav-item"><a class="nav-link fs-5" href="#programmes">Programmes</a></li>
+          <li class="nav-item"><a class="nav-link fs-5" href="#faq">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link fs-5" href="#apropos">À propos</a></li>
+        </ul>
+        <form class="d-flex w-50" onsubmit="rechercher(); return false;">
+          <input class="form-control me-2" id="produit" type="search" placeholder="Rechercher un aliment" aria-label="Search" style="border-radius: 20px;">
+          <button class="btn btn-outline-success" type="submit">Rechercher</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Introduction -->
+  <header class="text-center py-5 bg-white text-dark">
+    <div class="container">
+      <h1>Bienvenue sur NutriFit</h1>
+      <p class="lead">Atteignez vos objectifs sportifs avec notre assistant nutritionnel intelligent</p>
+    </div>
+  </header>
+
+  <!-- Carrousel -->
+  <div id="carouselSport" class="carousel slide container my-4" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="img/pexels-anush-1229356.jpg" class="d-block w-100" alt="Image 1" style="height: 500px; object-fit: cover;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Entraînez-vous intensément</h5>
+          <p>Élevez votre performance avec NutriFit.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="img/pexels-victorfreitas-841130.jpg" class="d-block w-100" alt="Image 2" style="height: 500px; object-fit: cover;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Atteignez vos objectifs</h5>
+          <p>Que ce soit prise de masse ou sèche, nous vous accompagnons.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="img/pexels-karolina-grabowska-5714306.jpg" class="d-block w-100" alt="Image 3" style="height: 500px; object-fit: cover;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Santé et bien-être</h5>
+          <p>Adoptez un mode de vie équilibré avec NutriFit.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselSport" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Précédent</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselSport" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Suivant</span>
+    </button>
+  </div>
+
+  <!-- Produits vedettes -->
+  <section id="produits" class="container my-5">
+    <h2 class="text-center mb-4">Produits en vedette</h2>
+    <div id="produitsVedettes" class="row gy-3">
+      <!-- Produits dynamiques ajoutés par JS -->
+    </div>
+  </section>
+
+  <!-- Programmes sportifs -->
+  <section id="programmes" class="container my-5">
+    <h2 class="text-center mb-4">Programmes sportifs</h2>
+    <div class="row gy-3">
+      <div class="col-md-6">
+        <div class="p-3 border rounded bg-light h-100">
+          <h5>Plan de prise de masse</h5>
+          <p>Augmentez votre masse musculaire avec des exercices ciblés et une alimentation riche en protéines.</p>
+          <a href="programmes.html#masse" class="btn btn-success">En savoir plus</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 border rounded bg-light h-100">
+          <h5>Plan de sèche</h5>
+          <p>Atteignez un corps plus sec et plus défini grâce à des séances de cardio et une alimentation équilibrée.</p>
+          <a href="programmes.html#seche" class="btn btn-success">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container my-5">
+    <h2 class="text-center mb-4">Foire aux Questions</h2>
+    <div class="accordion" id="accordionFAQ">
+      <!-- À remplir ultérieurement -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+            Comment fonctionne NutriFit ?
+          </button>
+        </h2>
+        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionFAQ">
+          <div class="accordion-body">
+            NutriFit utilise une base de données alimentaire et des recommandations personnalisées pour vous aider à atteindre vos objectifs.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- À propos -->
+  <section id="apropos" class="container my-5">
+    <h2 class="text-center mb-4">À propos de nous</h2>
+    <p class="text-center">NutriFit est une application locale conçue pour aider les sportifs à optimiser leur alimentation et atteindre leurs objectifs. Créée par des étudiants passionnés de sport et de technologie.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-3 bg-dark text-white">
+    <div class="container">
+      <p class="mb-0">© 2025 NutriFit™. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
