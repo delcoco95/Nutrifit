@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NutriFit - Catalogue Produits</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    #loadingMessage, #errorMessage {
+      text-align: center;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand fs-3" href="#">NutriFit</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1 class="mb-4 text-center">Catalogue des produits</h1>
+
+    <!-- Barre de filtres -->
+    <section class="mb-4">
+      <form id="filterForm" class="row gy-2 gx-3 align-items-center">
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="searchInput" placeholder="Recherche par nom..." />
+        </div>
+        <div class="col-sm-3">
+          <select class="form-select" id="categoryFilter">
+            <option value="all" selected>Toutes catégories</option>
+            <option value="proteines">Protéines</option>
+            <option value="vitamines">Vitamines</option>
+            <option value="compléments">Compléments</option>
+            <option value="accessoires">Accessoires</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <select class="form-select" id="calorieFilter">
+            <option value="all" selected>Toutes calories</option>
+            <option value="low">Moins de 100 kcal</option>
+            <option value="medium">100 à 200 kcal</option>
+            <option value="high">Plus de 200 kcal</option>
+          </select>
+        </div>
+        <div class="col-sm-2 d-grid">
+          <button type="button" id="clearFilters" class="btn btn-secondary">Effacer filtres</button>
+        </div>
+      </form>
+    </section>
+
+    <div id="loadingMessage">Chargement des produits...</div>
+    <div id="errorMessage" style="display:none; color:red;">Erreur lors du chargement des produits.</div>
+
+    <section id="productCatalog" class="row gy-4"></section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="produits.js"></script>
+</body>
+</html>
