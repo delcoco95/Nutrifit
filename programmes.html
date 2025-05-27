@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="="fr">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,104 +7,134 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     .resultat {
-      transition: all 0.3s ease;
-    }
-    .resultat.visible {
-      opacity: 1;
-      transform: translateY(0);
+      transition: all 0.4s ease;
     }
     .resultat.hidden {
       opacity: 0;
       transform: translateY(30px);
       pointer-events: none;
     }
+    .hero-image {
+      height: 350px;
+      background-image: url("img/sport-banner.jpg");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      color: white;
+    }
+    .hero-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .hero-overlay h1 {
+      font-size: 3rem;
+    }
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand fs-3" href="index.html">NutriFit</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link fs-5" href="index.html#produits">Produits</a></li>
-          <li class="nav-item"><a class="nav-link fs-5" href="index.html#faq">FAQ</a></li>
-          <li class="nav-item"><a class="nav-link fs-5" href="index.html#apropos">À propos</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#produits">Produits</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#programmes">Programmes</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#faq">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#apropos">À propos</a></li>
         </ul>
-      </div>
     </div>
   </nav>
 
-  <!-- En-tête -->
-  <header class="text-center py-5 bg-light text-dark">
-    <div class="container">
-      <h1 class="display-5">Personnalisez votre programme sportif</h1>
-      <p class="lead">Renseignez vos données pour recevoir un programme alimentaire adapté à votre profil.</p>
+  <section class="hero-image">
+    <div class="hero-overlay">
+      <div class="container">
+        <h1 class="text-white">Votre programme personnalisé</h1>
+        <p class="lead text-white">Un plan alimentaire et sportif adapté à votre profil.</p>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <!-- Formulaire de profil -->
   <section class="container my-5">
-    <h2 class="text-center mb-4">Votre Profil</h2>
-    <div class="row justify-content-center">
-      <div class="col-md-6 bg-white p-4 rounded shadow">
-        <form id="formProgramme">
-          <div class="mb-3">
-            <label for="taille" class="form-label">Taille (cm)</label>
-            <input type="number" class="form-control" id="taille" required>
-          </div>
-          <div class="mb-3">
-            <label for="poids" class="form-label">Poids (kg)</label>
-            <input type="number" class="form-control" id="poids" required>
-          </div>
-          <div class="mb-3">
-            <label for="age" class="form-label">Âge</label>
-            <input type="number" class="form-control" id="age" required>
-          </div>
-          <div class="mb-3">
-            <label for="morphologie" class="form-label">Morphologie</label>
-            <select class="form-select" id="morphologie" required>
-              <option value="ecto">Ectomorphe</option>
-              <option value="meso">Mésomorphe</option>
-              <option value="endo">Endomorphe</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="objectif" class="form-label">Objectif</label>
-            <select class="form-select" id="objectif" required>
-              <option value="masse">Prise de masse</option>
-              <option value="seche">Sèche</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-success w-100">Afficher mon programme</button>
-        </form>
+    <div class="row align-items-center" id="formRow">
+      <div class="col-lg-6">
+        <div class="bg-white p-4 rounded shadow">
+          <h2 class="text-center mb-4">Votre Profil</h2>
+          <form id="formProgramme">
+            <div class="mb-3">
+              <label for="taille" class="form-label">Taille (cm)</label>
+              <input type="number" class="form-control" id="taille" required>
+            </div>
+            <div class="mb-3">
+              <label for="poids" class="form-label">Poids (kg)</label>
+              <input type="number" class="form-control" id="poids" required>
+            </div>
+            <div class="mb-3">
+              <label for="age" class="form-label">Âge</label>
+              <input type="number" class="form-control" id="age" required>
+            </div>
+            <div class="mb-3">
+              <label for="morphologie" class="form-label">Morphologie</label>
+              <select class="form-select" id="morphologie" required>
+                <option value="ecto">Ectomorphe</option>
+                <option value="meso">Mésomorphe</option>
+                <option value="endo">Endomorphe</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="objectif" class="form-label">Objectif</label>
+              <select class="form-select" id="objectif" required>
+                <option value="masse">Prise de masse</option>
+                <option value="seche">Sèche</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Afficher mon programme</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-6 d-none d-lg-block">
+        <img src="img/pexels-anush-1229356.jpg" class="img-fluid rounded shadow" alt="Sportif motivant">
+      </div>
+    </div>
+
+    <!-- Résultats Alimentation + Exercices -->
+    <div class="row mt-5 resultat hidden" id="programmeResultat">
+      <div class="col-lg-6">
+        <div class="p-4 bg-light border rounded shadow-sm">
+          <h3 class="text-center mb-3">🍽️ Programme Alimentaire</h3>
+          <div id="programmeAlimentaire"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="p-4 bg-light border rounded shadow-sm">
+          <h3 class="text-center mb-3">🏋️‍♂️ Programme d'exercices</h3>
+          <div id="programmeExercices"></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Résultat -->
-  <section class="container my-5 resultat hidden" id="programmeResultat">
-    <h2 class="text-center mb-4">Votre Programme Alimentaire</h2>
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div id="programmeDetail" class="p-4 bg-light border rounded shadow-sm"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
   <footer class="text-center py-3 bg-dark text-white">
     <div class="container">
       <p class="mb-0">© 2025 NutriFit™. Tous droits réservés.</p>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/programmes.js"></script>
+  <script src="programmes.js"></script>
 </body>
 </html>

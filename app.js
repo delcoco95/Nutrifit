@@ -1,48 +1,61 @@
-document.addEventListener("DOMContentLoaded", chargerProduitsVedettes);
+// app.js
 
-function chargerProduitsVedettes() {
-    // URL du produit spécifique avec authentification
-    fetch("https://world.openfoodfacts.org/api/v2/search?fields=product_name,nutriments,image_front_url&language=fr&page_size=5", {
-        method: 'GET',
-        headers: { Authorization: 'Basic ' + btoa('off:off') },
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Erreur HTTP : ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Données API :", data);
-        afficherProduitVedette(data.product);
-    })
-    .catch(error => console.error("Erreur API :", error));
+// Gestion de la recherche : redirige vers produits.html?search=terme
+function redirigerVersProduits() {
+  const termeRecherche = document.getElementById("produit").value.trim();
+  if (termeRecherche) {
+    window.location.href = `produits.html?recherche=${encodeURIComponent(termeRecherche)}`;
+  }
 }
 
-function afficherProduitVedette(produit) {
-    const zoneProduits = document.getElementById("produitsVedettes");
-    zoneProduits.innerHTML = ""; // On vide la section avant d'ajouter les produits
 
-    if (!produit) {
-        zoneProduits.innerHTML = "<p class='text-center'>Aucun produit trouvé.</p>";
-        return;
-    }
+// Produits vedettes codés en dur pour affichage
+const produitsVedettes = [
+  {
+    nom: "Whey Protéine Premium",
+    description: "Poudre de protéine pour prise de masse rapide et sèche.",
+    image: "https://images.unsplash.com/photo-1606813909264-b26d48411839?auto=format&fit=crop&w=600&q=80",
+    proteines: 24,
+    calories: 120,
+  },
+  {
+    nom: "Barres Énergétiques Bio",
+    description: "Barres naturelles riches en protéines et fibres.",
+    image: "https://images.unsplash.com/photo-1523983301330-1c9e068fca37?auto=format&fit=crop&w=600&q=80",
+    proteines: 10,
+    calories: 150,
+  },
+  {
+    nom: "Créatine Monohydrate",
+    description: "Supplément de créatine pour optimiser la récupération musculaire.",
+    image: "https://images.unsplash.com/photo-1589927986089-35812386f223?auto=format&fit=crop&w=600&q=80",
+    proteines: 0,
+    calories: 0,
+  },
+];
 
-    const imageSrc = produit.image_front_url ? produit.image_front_url : "img/placeholder.png";
+function afficherProduitsVedettes() {
+  const zone = document.getElementById("produitsVedettes");
+  zone.innerHTML = "";
+
+  produitsVedettes.forEach((p) => {
     const div = document.createElement("div");
     div.className = "col-md-4";
+
     div.innerHTML = `
-        <div class="card">
-            <img src="${imageSrc}" class="card-img-top" alt="Image du produit">
-            <div class="card-body">
-                <h5 class="card-title">${produit.product_name || 'Nom inconnu'}</h5>
-                <p class="card-text">
-                    Protéines : ${produit.nutriments?.proteins_100g || '-'} g | 
-                    Calories : ${produit.nutriments?.['energy-kcal_100g'] || '-'} kcal
-                </p>
-                <a href="#" class="btn btn-primary">En savoir plus</a>
-            </div>
+      <div class="card h-100 shadow-sm">
+        <img src="${p.image}" class="card-img-top" alt="${p.nom}" style="height:250px;object-fit:cover;border-radius:10px 10px 0 0;">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">${p.nom}</h5>
+          <p class="card-text flex-grow-1">${p.description}</p>
+          <p class="mb-2">Protéines : <strong>${p.proteines}g</strong> | Calories : <strong>${p.calories} kcal</strong></p>
+          <a href="produits.html?search=${encodeURIComponent(p.nom)}" class="btn btn-primary mt-auto">Voir produits similaires</a>
         </div>
+      </div>
     `;
-    zoneProduits.appendChild(div);
+
+    zone.appendChild(div);
+  });
 }
+
+document.addEventListener("DOMContentLoaded", afficherProduitsVedettes);

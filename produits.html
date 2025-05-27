@@ -2,63 +2,127 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NutriFit - Catalogue Produits</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NutriFit - Produits</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
-    #loadingMessage, #errorMessage {
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    main {
+      flex: 1;
+    }
+    .hero-image {
+      height: 350px;
+      background-image: url("img/sport-banner.jpg");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      color: white;
+    }
+    .hero-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      font-weight: bold;
-      margin: 20px 0;
+    }
+    .hero-overlay h1 {
+      font-size: 3rem;
     }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container">
-      <a class="navbar-brand fs-3" href="#">NutriFit</a>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand fs-3" href="index.html">NutriFit</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html#produits">Produits</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#programmes">Programmes</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#faq">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#apropos">À propos</a></li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <main class="container">
-    <h1 class="mb-4 text-center">Catalogue des produits</h1>
+<!-- Hero -->
+<section class="hero-image">
+  <div class="hero-overlay">
+    <div class="container">
+      <h1 class="text-white">PRODUITS</h1>
+      <p class="lead text-white">Trouvez les produits qui vous conviennent selon vos objectifs</p>
+    </div>
+  </div>
+</section>
 
-    <!-- Barre de filtres -->
-    <section class="mb-4">
-      <form id="filterForm" class="row gy-2 gx-3 align-items-center">
-        <div class="col-sm-4">
-          <input type="text" class="form-control" id="searchInput" placeholder="Recherche par nom..." />
-        </div>
-        <div class="col-sm-3">
-          <select class="form-select" id="categoryFilter">
-            <option value="all" selected>Toutes catégories</option>
-            <option value="proteines">Protéines</option>
-            <option value="vitamines">Vitamines</option>
-            <option value="compléments">Compléments</option>
-            <option value="accessoires">Accessoires</option>
-          </select>
-        </div>
-        <div class="col-sm-3">
-          <select class="form-select" id="calorieFilter">
-            <option value="all" selected>Toutes calories</option>
-            <option value="low">Moins de 100 kcal</option>
-            <option value="medium">100 à 200 kcal</option>
-            <option value="high">Plus de 200 kcal</option>
-          </select>
-        </div>
-        <div class="col-sm-2 d-grid">
-          <button type="button" id="clearFilters" class="btn btn-secondary">Effacer filtres</button>
-        </div>
-      </form>
-    </section>
+<main class="container my-5">
 
-    <div id="loadingMessage">Chargement des produits...</div>
-    <div id="errorMessage" style="display:none; color:red;">Erreur lors du chargement des produits.</div>
+  <!-- Section filtres -->
+  <div class="row mb-4 g-2 align-items-end">
+    <div class="col-md-3">
+      <input type="text" id="filterSearchInput" class="form-control" placeholder="Mot-clé...">
+    </div>
+    <div class="col-md-2">
+      <select id="filterType" class="form-select">
+        <option value="">Type</option>
+        <option value="barre">Barre</option>
+        <option value="boisson">Boisson</option>
+        <option value="poudre">Poudre</option>
+        <option value="gel">Gel</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="filterRange" class="form-select">
+        <option value="">Gamme</option>
+        <option value="protéine">Protéine</option>
+        <option value="gain">Prise de masse</option>
+        <option value="brûleur">Brûleur</option>
+        <option value="endurance">Endurance</option>
+        <option value="vitamine">Vitamine</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="filterCategory" class="form-select">
+        <option value="">Catégorie</option>
+        <option value="sport">Sport</option>
+        <option value="santé">Santé</option>
+        <option value="musculation">Musculation</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button id="filterSearchBtn" class="btn btn-primary w-100">Filtrer</button>
+    </div>
+  </div>
 
-    <section id="productCatalog" class="row gy-4"></section>
-  </main>
+  <!-- Chargement -->
+  <p id="loadingMessage" class="text-center text-muted" style="display:none;">Chargement des produits...</p>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="produits.js"></script>
+  <!-- Produits -->
+  <div id="productsContainer" class="row justify-content-center"></div>
+
+  <!-- Pagination -->
+  <div id="pagination" class="mt-4"></div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3 mt-auto">
+  <div class="container">
+    <p class="mb-0">© 2025 NutriFit. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<script src="produits.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
