@@ -1,8 +1,4 @@
 const productsContainer = document.getElementById("productsContainer");
-const loadingMessage = document.getElementById("loadingMessage");
-const paginationContainer = document.getElementById("pagination");
-
-const searchInput = document.getElementById("searchInput");
 const filterType = document.getElementById("filterType");
 const filterRange = document.getElementById("filterRange");
 const filterCategory = document.getElementById("filterCategory");
@@ -14,79 +10,66 @@ let filteredProducts = [];
 let currentPage = 1;
 const productsPerPage = 9;
 
-function showLoading(show) {
-  loadingMessage.style.display = show ? "block" : "none";
-}
+// Produits par défaut
+const produitsParDefaut = [
+  { product_name: "Whey Protéine Naturelle", nutriments: { proteins_100g: 24, "energy-kcal_100g": 120 }},
+  { product_name: "Barre Énergétique Bio", nutriments: { proteins_100g: 9, "energy-kcal_100g": 140 }},
+  { product_name: "Boisson Énergisante Citron", nutriments: { proteins_100g: 0, "energy-kcal_100g": 50 }},
+  { product_name: "Créatine Monohydrate", nutriments: { proteins_100g: 0, "energy-kcal_100g": 0 }},
+  { product_name: "Barre Chocolat & Amande", nutriments: { proteins_100g: 11, "energy-kcal_100g": 180 }},
+  { product_name: "Poudre Vegan Multi-Plantes", nutriments: { proteins_100g: 16, "energy-kcal_100g": 110 }},
+  { product_name: "Gel énergétique fruits rouges", nutriments: { proteins_100g: 1, "energy-kcal_100g": 95 }},
+  { product_name: "Boisson d’endurance Menthe", nutriments: { proteins_100g: 0, "energy-kcal_100g": 42 }},
+  { product_name: "Vitamine C Complexe", nutriments: { proteins_100g: 0, "energy-kcal_100g": 10 }}
+];
 
-// Open Food Facts API
-async function fetchOpenFoodFacts(query = "", page = 1) {
-  const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page=${page}&page_size=50&tagtype_0=categories&tag_contains_0=contains&tag_0=sports-nutrition`;
+// Appel API Open Food Facts
+async function fetchOpenFoodFacts(query = "") {
+  const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=50`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Erreur avec l'API Open Food Facts");
-  const data = await res.json();
-
-  return data.products.filter(p =>
-    p.product_name &&
-    p.image_front_url &&
-    p.categories_tags &&
-    p.categories_tags.some(c => c.includes("en:sports-food"))
-  );
-}
-
-// Nutritionix API
-async function fetchNutritionix(query = "", page = 1) {
-  const appId = "29ff0426";
-  const appKey = "0c570d5a067d4a474045515a3801bc99";
-  const limit = 50;
-  const offset = (page - 1) * limit;
-  const url = `https://trackapi.nutritionix.com/v2/search/instant?query=${encodeURIComponent(query)}&branded=true&self=false&limit=${limit}&offset=${offset}`;
-
-  const res = await fetch(url, {
-    headers: {
-      "x-app-id": appId,
-      "x-app-key": appKey,
-    }
-  });
-  if (!res.ok) throw new Error("Erreur avec l'API Nutritionix");
+  if (!res.ok) throw new Error("Erreur API Open Food Facts");
 
   const data = await res.json();
-  return (data.branded || []).filter(p =>
-    p.photo?.thumb &&
-    !p.food_name.toLowerCase().includes("makeup") &&
-    !p.brand_name.toLowerCase().includes("cosmetics")
-  ).map(p => ({
-    product_name: `${p.brand_name} ${p.food_name}`,
-    image_front_url: p.photo.thumb,
-    nutriments: {
-      proteins_100g: p.nf_protein ?? "-",
-      "energy-kcal_100g": p.nf_calories ?? "-"
-    }
-  }));
+
+  return data.products
+    .filter(p => p.product_name && p.nutriments)
+    .map(p => ({
+      product_name: p.product_name,
+      nutriments: {
+        proteins_100g: p.nutriments.proteins_100g ?? "-",
+        "energy-kcal_100g": p.nutriments["energy-kcal_100g"] ?? "-"
+      }
+    }));
 }
 
-// Fusionne les données des deux APIs
-async function fetchProducts(query = "") {
-  try {
-    showLoading(true);
-    currentPage = 1;
+// Affichage
+function displayProducts() {
+  const start = (currentPage - 1) * productsPerPage;
+  const end = start + productsPerPage;
+  const pageProducts = filteredProducts.slice(start, end);
 
-    const [openFood, nutritionix] = await Promise.all([
-      fetchOpenFoodFacts(query),
-      fetchNutritionix(query)
-    ]);
-
-    allProducts = [...openFood, ...nutritionix];
-    filteredProducts = [...allProducts];
-    displayProducts();
-  } catch (err) {
-    productsContainer.innerHTML = `<p class="text-danger">Erreur lors du chargement des produits.</p>`;
-    console.error(err);
-  } finally {
-    showLoading(false);
+  if (pageProducts.length === 0) {
+    productsContainer.innerHTML = `<p class="text-center">Aucun produit trouvé.</p>`;
+    return;
   }
+
+  productsContainer.innerHTML = pageProducts.map(p => `
+    <div class="col-md-4 d-flex">
+      <div class="card h-100 shadow-sm w-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">${p.product_name}</h5>
+          <p class="card-text flex-grow-1">
+            Protéines : <strong>${p.nutriments.proteins_100g}</strong><br>
+            Calories : <strong>${p.nutriments["energy-kcal_100g"]}</strong>
+          </p>
+          <a href="https://www.google.com/search?q=${encodeURIComponent(p.product_name)}" target="_blank" class="btn btn-primary mt-auto">Voir plus</a>
+        </div>
+      </div>
+    </div>
+  `).join("");
 }
 
-// Applique les filtres uniquement lors du clic
+// Filtres
 function applyFilters() {
   const type = filterType.value.toLowerCase();
   const range = filterRange.value.toLowerCase();
@@ -95,92 +78,41 @@ function applyFilters() {
 
   filteredProducts = allProducts.filter(p => {
     const name = p.product_name.toLowerCase();
-
-    const matchType = !type || name.includes(type);
-    const matchRange = !range || name.includes(range);
-    const matchCategory = !category || name.includes(category);
-    const matchSearch = !searchTerm || name.includes(searchTerm);
-
-    return matchType && matchRange && matchCategory && matchSearch;
+    return (
+      (!type || name.includes(type)) &&
+      (!range || name.includes(range)) &&
+      (!category || name.includes(category)) &&
+      (!searchTerm || name.includes(searchTerm))
+    );
   });
 
   currentPage = 1;
   displayProducts();
 }
 
-function displayProducts() {
-  const start = (currentPage - 1) * productsPerPage;
-  const end = start + productsPerPage;
-  const pageProducts = filteredProducts.slice(start, end);
-
-  if (pageProducts.length === 0) {
-    productsContainer.innerHTML = `<p>Aucun produit trouvé.</p>`;
-    paginationContainer.innerHTML = "";
-    return;
-  }
-
-  productsContainer.innerHTML = pageProducts.map(p => `
-    <div class="card m-2" style="width: 18rem;">
-      <img src="${p.image_front_url}" class="card-img-top" alt="${p.product_name}">
-      <div class="card-body">
-        <h5 class="card-title">${p.product_name}</h5>
-        <p class="card-text">Protéines : ${p.nutriments?.proteins_100g ?? "-"}</p>
-        <p class="card-text">Calories : ${p.nutriments?.["energy-kcal_100g"] ?? "-"}</p>
-      </div>
-    </div>
-  `).join("");
-
-  renderPagination();
-}
-
-function renderPagination() {
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-  if (totalPages <= 1) {
-    paginationContainer.innerHTML = "";
-    return;
-  }
-
-  let html = `<nav><ul class="pagination justify-content-center">`;
-
-  if (currentPage > 1) {
-    html += `<li class="page-item"><a class="page-link" href="#" data-page="${currentPage - 1}">Précédent</a></li>`;
-  }
-
-  for (let i = 1; i <= totalPages; i++) {
-    html += `<li class="page-item ${i === currentPage ? "active" : ""}">
-      <a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
-  }
-
-  if (currentPage < totalPages) {
-    html += `<li class="page-item"><a class="page-link" href="#" data-page="${currentPage + 1}">Suivant</a></li>`;
-  }
-
-  html += `</ul></nav>`;
-  paginationContainer.innerHTML = html;
-
-  paginationContainer.querySelectorAll("a.page-link").forEach(link => {
-    link.addEventListener("click", e => {
-      e.preventDefault();
-      const page = Number(e.target.getAttribute("data-page"));
-      if (page && page !== currentPage) {
-        currentPage = page;
-        displayProducts();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    });
-  });
-}
-
-// Bouton de filtre
-filterSearchBtn.addEventListener("click", applyFilters);
-
-// Recherche globale avec entrée
-searchInput?.addEventListener("keypress", e => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    fetchProducts(searchInput.value);
+// Recherche active
+filterSearchBtn.addEventListener("click", async () => {
+  const terme = filterSearchInput.value.trim();
+  if (terme) {
+    try {
+      const resultats = await fetchOpenFoodFacts(terme);
+      allProducts = resultats.length ? resultats : [...produitsParDefaut];
+      filteredProducts = [...allProducts];
+      displayProducts();
+    } catch (err) {
+      console.error("Erreur recherche :", err);
+      allProducts = [...produitsParDefaut];
+      filteredProducts = [...produitsParDefaut];
+      displayProducts();
+    }
+  } else {
+    applyFilters();
   }
 });
 
-// Chargement initial
-fetchProducts();
+// Initialisation
+window.addEventListener("DOMContentLoaded", () => {
+  allProducts = [...produitsParDefaut];
+  filteredProducts = [...produitsParDefaut];
+  displayProducts();
+});

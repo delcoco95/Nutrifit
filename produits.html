@@ -33,6 +33,20 @@
     .hero-overlay h1 {
       font-size: 3rem;
     }
+    .card {
+      border: none;
+      border-radius: 10px;
+      transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-body {
+      padding: 1.25rem;
+    }
+    .card .btn {
+      border-radius: 20px;
+    }
   </style>
 </head>
 <body>
@@ -56,14 +70,13 @@
 </nav>
 
 <!-- Hero -->
-<section class="hero-image">
-  <div class="hero-overlay">
-    <div class="container">
-      <h1 class="text-white">PRODUITS</h1>
-      <p class="lead text-white">Trouvez les produits qui vous conviennent selon vos objectifs</p>
-    </div>
+<header class="text-center py-5 bg-white text-dark">
+  <div class="container">
+    <h1>Nos meilleurs produits</h1>
+    <p class="lead">Des compléments et aliments adaptés à vos objectifs sportifs et nutritionnels</p>
   </div>
-</section>
+</header>
+
 
 <main class="container my-5">
 
@@ -108,7 +121,7 @@
   <p id="loadingMessage" class="text-center text-muted" style="display:none;">Chargement des produits...</p>
 
   <!-- Produits -->
-  <div id="productsContainer" class="row justify-content-center"></div>
+  <div id="productsContainer" class="row gy-4"></div>
 
   <!-- Pagination -->
   <div id="pagination" class="mt-4"></div>

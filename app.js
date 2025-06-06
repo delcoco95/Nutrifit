@@ -44,7 +44,6 @@ function afficherProduitsVedettes() {
 
     div.innerHTML = `
       <div class="card h-100 shadow-sm">
-        <img src="${p.image}" class="card-img-top" alt="${p.nom}" style="height:250px;object-fit:cover;border-radius:10px 10px 0 0;">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">${p.nom}</h5>
           <p class="card-text flex-grow-1">${p.description}</p>
@@ -57,5 +56,6 @@ function afficherProduitsVedettes() {
     zone.appendChild(div);
   });
 }
+
 
 document.addEventListener("DOMContentLoaded", afficherProduitsVedettes);
