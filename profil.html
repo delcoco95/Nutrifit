@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NutriFit - Mon Profil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand fs-3" href="index.html">NutriFit</a>
+  </div>
+</nav>
+
+<main class="container my-5">
+  <h1 class="text-center mb-4">👤 Mon Profil NutriFit</h1>
+
+  <!-- Section affichage du profil -->
+  <div id="profilDetails" style="display: none;">
+    <div class="border rounded p-4 bg-light mb-4" id="profilInfo"></div>
+    <div class="text-center">
+      <a href="programmes.html" class="btn btn-primary mb-3">🎯 Voir mon programme personnalisé</a><br>
+      <button onclick="reinitialiserProfil()" class="btn btn-danger">♻️ Réinitialiser mon profil</button>
+    </div>
+  </div>
+
+  <!-- Section formulaire (si pas encore de profil) -->
+  <div id="profilForm" style="display: none;">
+    <form id="formulaireProfil" class="bg-white border rounded p-4">
+      <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" class="form-control" id="nom" required>
+      </div>
+      <div class="mb-3">
+        <label for="age" class="form-label">Âge</label>
+        <input type="number" class="form-control" id="age" required>
+      </div>
+      <div class="mb-3">
+        <label for="taille" class="form-label">Taille (cm)</label>
+        <input type="number" class="form-control" id="taille" required>
+      </div>
+      <div class="mb-3">
+        <label for="poids" class="form-label">Poids (kg)</label>
+        <input type="number" class="form-control" id="poids" required>
+      </div>
+      <div class="mb-3">
+        <label for="morphologie" class="form-label">Morphologie</label>
+        <select class="form-select" id="morphologie" required>
+          <option value="">Sélectionner</option>
+          <option value="ecto">Ectomorphe</option>
+          <option value="meso">Mésomorphe</option>
+          <option value="endo">Endomorphe</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="objectif" class="form-label">Objectif</label>
+        <select class="form-select" id="objectif" required>
+          <option value="">Sélectionner</option>
+          <option value="masse">Prise de masse</option>
+          <option value="seche">Sèche / Définition</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-success w-100">✅ Enregistrer mon profil</button>
+    </form>
+  </div>
+</main>
+
+<footer class="bg-dark text-white text-center py-3 mt-auto">
+  <div class="container">
+    <p class="mb-0">© 2025 NutriFit. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<script src="profil.js"></script>
+</body>
+</html>

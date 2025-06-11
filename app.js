@@ -4,7 +4,7 @@
 function redirigerVersProduits() {
   const termeRecherche = document.getElementById("produit").value.trim();
   if (termeRecherche) {
-    window.location.href = `produits.html?recherche=${encodeURIComponent(termeRecherche)}`;
+    window.location.href = `produits.html?search=${encodeURIComponent(termeRecherche)}`;
   }
 }
 

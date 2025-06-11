@@ -90,7 +90,7 @@ function applyFilters() {
   displayProducts();
 }
 
-// Recherche active
+// Recherche active depuis bouton
 filterSearchBtn.addEventListener("click", async () => {
   const terme = filterSearchInput.value.trim();
   if (terme) {
@@ -110,9 +110,27 @@ filterSearchBtn.addEventListener("click", async () => {
   }
 });
 
-// Initialisation
-window.addEventListener("DOMContentLoaded", () => {
-  allProducts = [...produitsParDefaut];
-  filteredProducts = [...produitsParDefaut];
-  displayProducts();
+// Chargement initial + intégration de la recherche via URL (?search=...)
+window.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const terme = urlParams.get("search");
+
+  if (terme) {
+    filterSearchInput.value = terme;
+    try {
+      const resultats = await fetchOpenFoodFacts(terme);
+      allProducts = resultats.length ? resultats : [...produitsParDefaut];
+      filteredProducts = [...allProducts];
+      displayProducts();
+    } catch (err) {
+      console.error("Erreur chargement depuis URL :", err);
+      allProducts = [...produitsParDefaut];
+      filteredProducts = [...produitsParDefaut];
+      displayProducts();
+    }
+  } else {
+    allProducts = [...produitsParDefaut];
+    filteredProducts = [...produitsParDefaut];
+    displayProducts();
+  }
 });
